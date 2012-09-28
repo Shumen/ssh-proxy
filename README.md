@@ -56,7 +56,12 @@ Host github.com
     ProxyCommand=ssh my-ssh-server-host.net "/bin/nc -w1 %h %p"
 
 # Reference
-[zeitoun.net] http://www.zeitoun.net/articles/ssh-through-http-proxy/start "SSH through HTTP proxy"
-[SaulChristie] http://www.saulchristie.com/how-to/bypass-firewalls "Bypass Any Firewall"
-[proxytunnel] http://proxytunnel.sourceforge.net "ProxyTunnel: punching holes in HTTP(S) proxy"
-[gotoh] https://bitbucket.org/gotoh/connect "OpenSSH proxy command for socket connection using SOCKS4/5 or HTTP tunnel."
+1.  [SSH through HTTP proxy] [zeitoun.net]
+2.  [Bypass Any Firewall] [SaulChristie]
+3.  [ProxyTunnel: punching holes in HTTP(S) proxy] [proxytunnel]
+4.  [OpenSSH proxy command for socket connection using SOCKS4/5 or HTTP tunnel] [gotoh]
+
+[zeitoun.net]: http://www.zeitoun.net/articles/ssh-through-http-proxy/start "SSH through HTTP proxy"
+[SaulChristie]: http://www.saulchristie.com/how-to/bypass-firewalls "Bypass Any Firewall"
+[proxytunnel]: http://proxytunnel.sourceforge.net "ProxyTunnel: punching holes in HTTP(S) proxy"
+[gotoh]: https://bitbucket.org/gotoh/connect "OpenSSH proxy command for socket connection using SOCKS4/5 or HTTP tunnel."
