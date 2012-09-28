@@ -1,0 +1,126 @@
+diff -urP connect-proxy-1.93.orig/connect-proxy.1 connect-proxy-1.93/connect-proxy.1
+--- connect-proxy-1.93.orig/connect-proxy.1	1969-12-31 16:00:00.000000000 -0800
++++ connect-proxy-1.93/connect-proxy.1	2005-12-07 14:40:45.000000000 -0800
+@@ -0,0 +1,95 @@
++.TH "CONNECT-PROXY" "1" 
++.SH "NAME" 
++connect-proxy \(em connect over SOCKS4/5 proxy 
++.SH "SYNOPSIS" 
++.PP 
++\fBconnect-proxy\fR [\fB-dnhst45\fP]  [\fB-R \fIresolve\fR \fP]  [\fB-p \fIlocal-port\fR \fP]  [\fB-w \fIsecs\fR \fP]  [\fB-H \fI[user@]proxy-server[:port]]\fR \fP]  [\fB-S \fI[user@]socks-server[:port]]\fR \fP]  [\fB-T \fIproxy-server[:port]\fR \fP]  [\fB-c \fItelnet-proxy-command\fR \fP]  [host]  [port]  
++.SH "DESCRIPTION" 
++.PP 
++\fBconnect-proxy\fR open connection over SOCKS4/5 proxies 
++.PP 
++Please, note that any HTTP-Proxy tunnel won't work with content-inspection firewall (unless using SSL). 
++.SH "OPTIONS" 
++.IP "\fB-H\fP" 10 
++specifies a hostname and port number of the http proxy  
++server to relay. If port is omitted, 80 is used. You can specify this 
++value in the environment variable HTTP_PROXY and pass the \-h option 
++to use it. 
++.IP "\fB-S\fP" 10 
++specifies the hostname and port number of the SOCKS 
++server to relay.  Like \-H, port number can be omitted and the default 
++is 1080. You can also specify this value pair in the environment 
++variable SOCKS5_SERVER and give the \-s option to use it. 
++.IP "\fB-4\fP" 10 
++specifies SOCKS relaying and indicates protocol version to use.  
++It is valid only when used with '\-s' or '\-S'.  
++Default is '\-5' (protocol version 5) 
++.IP "\fB-R\fP" 10 
++method to resolve the 
++hostname. Three keywords ("local", "remote", "both") or dot-notation 
++IP address are acceptable.  The keyword "both" means, "Try local 
++first, then remote". If a dot-notation IP address is specified, use 
++this host as nameserver. The default is "remote" for SOCKS5 or 
++"local" for others. On SOCKS4 protocol, remote resolving method 
++("remote" and "both") requires protocol 4a supported server. 
++.IP "\fB-p\fP" 10 
++will forward a local TCP port instead of using the 
++standard input and output. 
++.IP "\fB-P\fP" 10 
++same to '\-p' except keep remote session. The 
++program repeats waiting the port with holding remote session without 
++disconnecting. To connect the remote session, send EOF to stdin or 
++kill the program. 
++.IP "\fB-w\fP" 10 
++timeout in seconds for making connection with TARGET host. 
++.IP "\fB-d\fP" 10 
++used for debug. If you fail to connect, use this and check request to and response from server. 
++.SH "USAGE" 
++.PP 
++To use proxy, this example is for SOCKS5 connection to connect to 
++'host' at port 25 via SOCKS5 server on 'firewall' host. 
++ 
++\fBconnect-proxy \-S firewall host 25\fR  
++ 
++\fBSOCKS5_SERVER=firewall; export SOCKS5_SERVER;  
++connect-proxy \-s host 25\fR 
++.PP 
++For a HTTP-PROXY connection: 
++ 
++\fBconnect-proxy \-H proxy-server:8080  host 25\fR   
++ 
++\fBHTTP_PROXY=proxy-server:8080; export HTTP_PROXY;  
++connect-proxy \-h host 25\fR  
++.PP 
++To forward a local port, for example to use ssh: 
++ 
++\fBconnect-proxy \-H proxy-server:8080  host 22 \fR  
++\fBssh \-l user \-p 5550 localhost\fR 
++.PP 
++To use it along ssh transparently: 
++\fB # file://~/.ssh/config 
++Host * 
++ProxyCommand connect-proxy \-H proxy-server:8080  %h %p\fR 
++.SH "ENVIRONMENT" 
++.PP 
++SOCKS5_USER, LOGNAME, USER 
++HTTP_PROXY_USER, LOGNAME, USER 
++.SH "SEE ALSO" 
++.PP 
++ssh (1). 
++.SH "WWW" 
++.PP 
++http://www.taiyo.co.jp/~gotoh/ssh/connect.html 
++.SH "AUTHOR" 
++.PP 
++This manual page was written by Philippe COVAL Philippe.COVAL@laposte.net for 
++the \fBDebian\fP system (but may be used by others).  Permission is 
++granted to copy, distribute and/or modify this document under 
++the terms of the GNU General Public License, Version 2 any  
++later version published by the Free Software Foundation. 
++ 
++.PP 
++On Debian systems, the complete text of the GNU General Public 
++License can be found in /usr/share/common-licenses/GPL. 
++ 
++.\" created by instant / docbook-to-man, Wed 27 Apr 2005, 21:50 
+diff -urP connect-proxy-1.93.orig/Makefile connect-proxy-1.93/Makefile
+--- connect-proxy-1.93.orig/Makefile	1969-12-31 16:00:00.000000000 -0800
++++ connect-proxy-1.93/Makefile	2005-12-07 14:49:13.000000000 -0800
+@@ -0,0 +1,23 @@
++#gmake
++PACKAGE ?= connect-proxy
++URL ?= http://www.taiyo.co.jp/~gotoh/ssh/connect.c
++INSTALL_DIR ?= ${DESTDIR}/usr
++
++OBJS ?= connect.o
++
++default: ${PACKAGE} 
++
++install: ${PACKAGE}
++	 -mkdir -p ${INSTALL_DIR}/bin/
++	 install ${PACKAGE} ${INSTALL_DIR}/bin/
++
++
++${PACKAGE}: ${OBJS}
++	    ${CC} -o $@ $^
++clean: 
++	${RM} ${PACKAGE} ${PACKAGE}.o *~ ${OBJS}
++
++LICENCE: /usr/share/apps/LICENSES/GPL_V2
++	ln -fs $^ $@
++
++# EOF

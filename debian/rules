@@ -1,0 +1,67 @@
+#! /usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+MAINPACKAGE?=$(shell dpkg-parsechangelog | sed -n 's/Source: \(.*\)/\1/p')
+
+include /usr/share/quilt/quilt.make
+
+CFLAGS?=-Wall -g
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+
+build: build-stamp
+
+build-stamp: patch
+	dh_testdir
+	$(MAKE)
+	docbook-to-man debian/${MAINPACKAGE}.sgml > debian/${MAINPACKAGE}.1
+#	cd debian && sed -e "s|${MAINPACKAGE}|connect|g" < ${MAINPACKAGE}.1 > connect.1
+	touch "$@"
+
+cleanall: patch
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+	[ ! -f Makefile ] || $(MAKE) -k clean
+
+clean: cleanall unpatch
+	dh_clean 
+	rm -f debian/*.1
+
+distclean: patch clean unpatch
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k 
+	dh_installdirs
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/${MAINPACKAGE}
+
+binary-indep: build install
+
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs 
+	dh_installdocs
+	dh_installman
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install 
+
+#eof "$Id: connect-proxy/debian/rules $"

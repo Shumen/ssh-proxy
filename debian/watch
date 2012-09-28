@@ -1,0 +1,4 @@
+version=3
+
+http://bitbucket.org/gotoh/connect/downloads/ \
+ connect-(.*)\.zip

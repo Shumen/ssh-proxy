@@ -1,0 +1,16 @@
+*~
+*.obj
+*.o
+*.exe
+*.zip
+connect
+connect-proxy
+version
+*-stamp
+MANIFEST
+debian/connect-proxy.1
+debian/connect-proxy/
+debian/connect-proxy.debhelper.log
+debian/connect-proxy.substvars
+debian/files
+debian/stamp-patched

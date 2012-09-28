@@ -1,0 +1,328 @@
+<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+
+<!-- Process this file with docbook-to-man to generate an nroff manual
+     page: `docbook-to-man manpage.sgml > manpage.1'.  You may view
+     the manual page with: `docbook-to-man manpage.sgml | nroff -man |
+     less'.  A typical entry in a Makefile or Makefile.am is:
+
+manpage.1: manpage.sgml
+	docbook-to-man $< > $@
+
+    
+	The docbook-to-man binary is found in the docbook-to-man package.
+	Please remember that if you create the nroff version in one of the
+	debian/rules file targets (such as build), you will need to include
+	docbook-to-man in your Build-Depends control field.
+
+  -->
+
+  <!-- Fill in your name for FIRSTNAME and SURNAME. -->
+  <!ENTITY dhfirstname "<firstname>Philippe</firstname>">
+  <!ENTITY dhsurname   "<surname>Coval</surname>">
+  <!-- Please adjust the date whenever revising the manpage. -->
+  <!ENTITY dhdate      "<date>April 22, 2005</date>">
+  <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
+       allowed: see man(7), man(1). -->
+  <!ENTITY dhsection   "<manvolnum>1</manvolnum>">
+  <!ENTITY dhemail     "<email>rzr@gna.org</email>">
+  <!ENTITY dhusername  "Philippe Coval">
+  <!ENTITY dhucpackage "<refentrytitle>CONNECT-PROXY</refentrytitle>">
+  <!ENTITY dhpackage   "connect-proxy">
+
+  <!ENTITY debian      "<productname>Debian</productname>">
+  <!ENTITY gnu         "<acronym>GNU</acronym>">
+  <!ENTITY gpl         "&gnu; <acronym>GPL</acronym>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <address>
+      &dhemail;
+    </address>
+    <author>
+      &dhfirstname;
+      &dhsurname;
+    </author>
+    <copyright>
+      <year>2003</year>
+      <holder>&dhusername;</holder>
+    </copyright>
+    &dhdate;
+  </refentryinfo>
+  <refmeta>
+    &dhucpackage;
+
+    &dhsection;
+  </refmeta>
+  <refnamediv>
+    <refname>&dhpackage;</refname>
+
+    <refpurpose>connect over SOCKS4/5 proxy</refpurpose>
+  </refnamediv>
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>&dhpackage;</command>
+
+      <arg><option>-dnhst45</option></arg>
+
+      <arg><option>-R <replaceable>resolve</replaceable> </option></arg>
+      <arg><option>-p <replaceable>local-port</replaceable> </option></arg>
+      <arg><option>-w <replaceable>secs</replaceable> </option></arg>
+      <arg><option>-H <replaceable>[user@]proxy-server[:port]]</replaceable> </option></arg>
+      <arg><option>-S <replaceable>[user@]socks-server[:port]]</replaceable> </option></arg>
+      <arg><option>-T <replaceable>proxy-server[:port]</replaceable> </option></arg>
+      <arg><option>-c <replaceable>telnet-proxy-command</replaceable> </option></arg>
+      <arg>host</arg>
+      <arg>port</arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+  <refsect1>
+    <title>DESCRIPTION</title>
+
+<para>
+<command>&dhpackage;</command> open connection over SOCKS4/5 proxies
+
+</para>
+
+<para>
+Please, note that any HTTP-Proxy tunnel won't work with content-inspection firewall (unless using SSL).
+</para>
+
+  </refsect1>
+  <refsect1>
+    <title>OPTIONS</title>
+
+    <variablelist>
+      <varlistentry>
+        <term><option>-H</option></term>
+<listitem>
+<para>
+specifies a hostname and port number of the http proxy 
+ server to relay. If port is omitted, 80 is used. You can specify this
+ value in the environment variable HTTP_PROXY and pass the -h option
+ to use it.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>-S</option></term>
+ <listitem>
+<para>
+specifies the hostname and port number of the SOCKS
+ server to relay.  Like -H, port number can be omitted and the default
+ is 1080. You can also specify this value pair in the environment
+ variable SOCKS5_SERVER and give the -s option to use it.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>-4</option></term>
+<listitem>
+<para>
+specifies SOCKS relaying and indicates protocol version to use. 
+It is valid only when used with '-s' or '-S'. 
+Default is '-5' (protocol version 5)
+</para>
+</listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><option>-R</option></term>
+<listitem>
+<para>
+method to resolve the
+ hostname. Three keywords ("local", "remote", "both") or dot-notation
+ IP address are acceptable.  The keyword "both" means, "Try local
+ first, then remote". If a dot-notation IP address is specified, use
+ this host as nameserver. The default is "remote" for SOCKS5 or
+ "local" for others. On SOCKS4 protocol, remote resolving method
+ ("remote" and "both") requires protocol 4a supported server.
+</para>
+</listitem>
+</varlistentry>
+
+
+
+<varlistentry>
+<term><option>-p</option></term>
+<listitem>
+<para>
+ will forward a local TCP port instead of using the
+ standard input and output.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>-P</option></term>
+<listitem>
+<para>
+ same to '-p' except keep remote session. The
+ program repeats waiting the port with holding remote session without
+ disconnecting. To connect the remote session, send EOF to stdin or
+ kill the program.
+</para>
+</listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><option>-w</option></term>
+<listitem>
+<para>
+ timeout in seconds for making connection with TARGET host.
+</para>
+</listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><option>-d</option></term>
+<listitem>
+<para>
+used for debug. If you fail to connect, use this and check request to and response from server.
+</para>
+
+
+</listitem>
+</varlistentry>
+
+
+
+</variablelist>
+  </refsect1>
+
+
+<refsect1>
+	<title>USAGE</title>
+	<para>
+
+To use proxy, this example is for SOCKS5 connection to connect to
+"host" at port 25 via SOCKS5 server on "firewall" host.
+
+<command>
+&dhpackage; -S firewall host 25
+</command>
+
+
+<command>
+SOCKS5_SERVER=firewall; export SOCKS5_SERVER; 
+&dhpackage; -s host 25
+</command>
+
+</para>
+
+<para>
+For a HTTP-PROXY connection:
+
+<command>&dhpackage; -H proxy-server:8080  host 25</command>  
+
+<command>
+HTTP_PROXY=proxy-server:8080; export HTTP_PROXY; 
+&dhpackage; -h host 25
+</command> 
+</para>
+
+<para>
+ To forward a local port, for example to use ssh:
+
+<command>
+&dhpackage; -p 5550 -H proxy-server:8080 host 22 ssh -l user
+</command>
+
+</para>
+
+<para>
+ To use it along ssh transparently:
+
+<programlisting>
+ # file://~/.ssh/config
+ # not using proxy on lan
+ Host 192.*
+ ProxyCommand &dhpackage; %h %p
+ # mandatory to access the internet
+ Host *
+ ProxyCommand &dhpackage; -H proxyserver:8080  %h %p
+</programlisting>
+
+Or for all users ( /etc/ssh/ssh_config )
+
+</para>
+
+
+</refsect1>
+
+
+
+
+
+  <refsect1>
+    <title>ENVIRONMENT</title>
+<para>
+SOCKS5_USER, SOCKS5_PASSWORD, 
+HTTP_PROXY_USER, HTTP_PROXY_PASSWORD,
+CONNECT_PASSWORD,
+LOGNAME, USER
+</para>
+  </refsect1>
+
+
+
+
+
+
+  <refsect1>
+    <title>SEE ALSO</title>
+
+    <para>ssh (1).</para>
+
+  </refsect1>
+
+
+
+  <refsect1>
+    <title>WWW</title>
+<para>
+http://www.meadowy.org/~gotoh/projects/connect
+</para>
+  </refsect1>
+
+
+  <refsect1>
+    <title>AUTHOR</title>
+
+    <para>This manual page was written by &dhusername; &dhemail; for
+      the &debian; system (but may be used by others).  Permission is
+      granted to copy, distribute and/or modify this document under
+      the terms of the &gnu; General Public License, Version 2 any 
+	  later version published by the Free Software Foundation.
+    </para>
+	<para>
+	  On Debian systems, the complete text of the GNU General Public
+	  License can be found in /usr/share/common-licenses/GPL.
+	</para>
+
+  </refsect1>
+
+
+</refentry>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->
