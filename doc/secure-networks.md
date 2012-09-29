@@ -1,3 +1,5 @@
+<!--link href="/path/to/markdown.css" rel="stylesheet"></link-->
+
 基本问题
 ========
 
@@ -24,7 +26,7 @@ SSH隧道
 网直接访问这台机器。或者说这台位于公司防火墙外面的机器需要拥有一个独立的互联网
 IP，同时公司的防火墙规则不会屏蔽这台机器，并且这台机器运行着一个OpenSSH服务器。
 
-![local-forwarding-example.jpg](local-forwarding-example.jpg)
+![local-forwarding-example.jpg][local-forwarding-example.jpg]
 
 现在，我们清楚地知道了自己所处的网络环境。并且不难理解我们在公司无法访问那个服
 务器的原因是：线路A-B-C上A-B之间的防火墙屏蔽了对那个服务器的访问。与此同时，我
@@ -57,7 +59,7 @@ SSH端口转发自然需要SSH连接，而SSH连接是有方向的，从SSH Clie
 
 *这里的 `<SSH hostname>` 可以填localhost*
 
-![local-forwarding.jpg](local-forwarding.jpg)
+![local-forwarding.jpg][local-forwarding.jpg]
 
 
 远程转发
@@ -67,7 +69,7 @@ SSH端口转发自然需要SSH连接，而SSH连接是有方向的，从SSH Clie
 
     ssh -R <local port>:<remote host>:<remote port> <SSH hostname>
 
-![remote-forwarding.jpg](remote-forwarding.jpg)
+![remote-forwarding.jpg][remote-forwarding.jpg]
 
 
 
@@ -81,14 +83,14 @@ SSH端口转发自然需要SSH连接，而SSH连接是有方向的，从SSH Clie
 
 另外本地转发命令中的 `<remote host>` 和 `<SSH hostname>` 可以是不同的主机。
 
-![local-forwarding-remote.jpg](local-forwarding-remote.jpg)
+![local-forwarding-remote.jpg][local-forwarding-remote.jpg]
 
 
 
 远程转发与本地转发正好相反，打开ssh隧道以后，在远端服务器监听一个端口，所有访问
 远端服务器指定端口都会通过隧道传输到本地的对应端口上，下面是例子。
 
-![local-forwarding-remote.jpg](local-forwarding-remote.jpg)
+![local-forwarding-remote.jpg][local-forwarding-remote.jpg]
 
 
 动态转发
@@ -106,8 +108,8 @@ SSH端口转发自然需要SSH连接，而SSH连接是有方向的，从SSH Clie
 通过SSH建立的SOCKS服务器使用的是SOCKS 5协议，设置应用程序SOCKS代理时要特别注意。
 
 
-这里是一篇很好的介绍[SSH PortForwarding的文章]
-(http://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/)
+这里是一篇很好的介绍SSH PortForwarding的文章:
+<http://www.ibm.com/developerworks/cn/linux/l-cn-sshforward/>
 
 
 ### SSH的三个强大的端口转发命令：
@@ -238,17 +240,17 @@ HTTP服务，则默认为80端口)。
 现在公网IP地址严重缺乏。在没有足够多的IP地址的情况下，该如何实现这种需求呢?那就
 知道通过端口映射来完成。
 
-![local-forwarding-nat.jpg](local-forwarding-nat.jpg)
+![local-forwarding-nat.jpg][local-forwarding-nat.jpg]
 
 如上图所示，用户需要访问企业内部的WEB服务与ERP服务器，他只需要知道NAT服务地址与
 WEB服务器与ERP服务器所采用的端口即可。
 
 如果WEB服务器采用的端口为80，ERP服务器所采用的端口为5050。而NAT服务器的IP地址假
-设为202.96.92.100的话，那么当用户访问WEB服务器时，只需要输入http://
-202.96.92.100即可。由于HTTP协议默认采用的是80端口，故这里不用配置端口号。如果WEB
-服务器中把这个端口改为了3000，则在访问的时候就需要使用http://
-202.96.92.100:3000(地址+端口号)的形式了。用户要访问内部的ERP服务器也是类似的，只
-要把NAT服务器的地址以及ERP服务器所采用的端口在客户端上进行配置即可。
+设为202.96.92.100的话，那么当用户访问WEB服务器时，只需输入http://202.96.92.100
+即可。由于HTTP协议默认采用的是80端口，故这里不用配置端口号。如果WEB服务器中把这
+个端口改为了3000，则在访问时就需要使用http://202.96.92.100:3000 (地址+端口号)
+的形式了。用户要访问内部的ERP服务器也是类似的，只要把NAT服务器的地址以及ERP服务
+器所采用的端口在客户端上进行配置即可。
 
 可见通过NAT服务器的端口映射功能，可以让外部用户同时访问企业内部的WEB服务器与ERP
 服务器。
@@ -370,7 +372,7 @@ host/hostport
 在-L/-R/-D参数中，允许远程主机连接到建立的转发的端口，如果不加这个参数，只允许
 本地主机建立连接。注：这个参数我在实践中似乎始终不起作用。
 
-以上摘录自：http://chenweiguang.blogspot.com/2009/03/ssh.html
+以上摘录自：<http://chenweiguang.blogspot.com/2009/03/ssh.html>
 
 ### 建立本地SSH隧道例子
 
@@ -383,7 +385,7 @@ host/hostport
 现在，我们把上面这张图变得具体一些，给这些机器加上IP地址。并且根据下面这张图列
 出我们的计划：
 
-![local-forwarding-example.jpg](local-forwarding-example.jpg)
+![local-forwarding-example.jpg][local-forwarding-example.jpg]
 
  1. 需要访问234.234.234.234的FTP服务，也就是端口21
  2. 中间服务器是123.123.123.123
@@ -489,3 +491,12 @@ ServerAliveInterval会在隧道无通信后的一段设置好的时间后发送�
 0.0.0.0的接口上，方法是加上参数-b 0.0.0.0。同时还需要打开SSH服务器端的一个选项
 －GatewayPorts。默认情况下它应当是被打开的。如果被关闭的话，可以在/etc/sshd_config
 中修改GatewayPorts no为GatewayPorts yes来打开它。
+
+
+
+[local-forwarding-example.jpg]: //github.com/shuminhuang/ssh-proxy/raw/master/doc/local-forwarding-example.jpg
+[local-forwarding.jpg]: //github.com/shuminhuang/ssh-proxy/raw/master/doc/local-forwarding.jpg
+[local-forwarding-remote.jpg]: //github.com/shuminhuang/ssh-proxy/raw/master/doc/local-forwarding-remote.jpg
+[remote-forwarding-example.jpg]: //github.com/shuminhuang/ssh-proxy/raw/master/doc/remote-forwarding-example.jpg
+[remote-forwarding.jpg]: //github.com/shuminhuang/ssh-proxy/raw/master/doc/remote-forwarding.jpg
+[remote-forwarding-nat.jpg]: //github.com/shuminhuang/ssh-proxy/raw/master/doc/remote-forwarding-nat.jpg
